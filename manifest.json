@@ -1,0 +1,21 @@
+{
+  "name": "Slides.com Downloader",
+  "version": "1.0",
+  "description": "Simple downloader for any link from slides.com",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "*://slides.com/*"
+  ]
+}
