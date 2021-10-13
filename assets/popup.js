@@ -81,6 +81,7 @@ returnBtn.addEventListener("click", async () => {
 
   await getCurrentTab();
   checkBtnsStatus();
+  window.close();
 });
 
 getCurrentTab()
