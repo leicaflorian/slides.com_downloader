@@ -7,6 +7,10 @@
     "service_worker": "background.js"
   },
   "action": {
+    "default_icon": {
+      "16": "assets/imgs/icon-disabled.png"
+    },
+    "default_title": "Fai click per aprire",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -17,5 +21,12 @@
   ],
   "host_permissions": [
     "*://slides.com/*"
-  ]
+  ],
+  "icons": {
+    "16": "assets/imgs/16x16.png",
+    "32": "assets/imgs/32x32.png",
+    "72": "assets/imgs/72x72.png",
+    "96": "assets/imgs/96x96.png",
+    "128": "assets/imgs/128x128.png"
+  }
 }
