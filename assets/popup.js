@@ -1,5 +1,6 @@
 let reloadBtn = document.getElementById("reloadBtn");
 let printBtn = document.getElementById("printBtn");
+let returnBtn = document.getElementById("returnBtn");
 let currentTab;
 
 function checkBtnsStatus() {
@@ -12,6 +13,7 @@ function checkBtnsStatus() {
   } else {
     reloadBtn.disabled = urlParams.includes("print-pdf");
     printBtn.disabled = !urlParams.includes("print-pdf");
+    returnBtn.disabled = !urlParams.includes("print-pdf");
   }
 }
 
@@ -65,6 +67,20 @@ printBtn.addEventListener("click", async () => {
 
     window.print();
   });
+});
+
+returnBtn.addEventListener("click", async () => {
+  executeOnCurrentTab(() => {
+    const searchParams = window.location.search;
+    const urlParams = new URLSearchParams(searchParams);
+
+    urlParams.delete("print-pdf");
+
+    window.location.search = "?" + urlParams.toString();
+  });
+
+  await getCurrentTab();
+  checkBtnsStatus();
 });
 
 getCurrentTab()
