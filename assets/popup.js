@@ -7,14 +7,14 @@ function checkBtnsStatus() {
   const url = currentTab.url;
   const urlParams = url.slice(url.indexOf("?"));
 
-  if (!url.includes("slides.com") || !url.includes("token=")) {
+  /* if (!url.includes("slides.com") || !url.includes("token=")) {
     reloadBtn.disabled = true;
     printBtn.disabled = true;
-  } else {
-    reloadBtn.disabled = urlParams.includes("print-pdf");
-    printBtn.disabled = !urlParams.includes("print-pdf");
-    returnBtn.disabled = !urlParams.includes("print-pdf");
-  }
+  } else { */
+  reloadBtn.disabled = urlParams.includes("print-pdf");
+  printBtn.disabled = !urlParams.includes("print-pdf");
+  returnBtn.disabled = !urlParams.includes("print-pdf");
+  // }
 }
 
 async function getCurrentTab() {
@@ -45,7 +45,15 @@ reloadBtn.addEventListener("click", async () => {
 
     urlParams.append("print-pdf", "");
 
-    window.location.search = "?" + urlParams.toString();
+    const isFullscreen = window.location.toString().includes("/fullscreen");
+
+    let newUrl = window.location.origin + window.location.pathname;
+
+    if (!isFullscreen) {
+      newUrl += "/fullscreen";
+    }
+
+    window.location = newUrl + "?" + urlParams.toString();
 
   });
 
@@ -56,8 +64,9 @@ reloadBtn.addEventListener("click", async () => {
 printBtn.addEventListener("click", async () => {
   executeOnCurrentTab(() => {
     const pages = document.querySelectorAll(".pdf-page");
+
     pages.forEach(page => {
-      page.style.height = "755px";
+      page.style.height = pages[0].style.height;
     });
 
     const slides = document.querySelectorAll(".slides");
