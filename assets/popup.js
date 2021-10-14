@@ -31,10 +31,39 @@ function executeOnCurrentTab(fn) {
     });
 }
 
+function injectDomStyles() {
+  executeOnCurrentTab(async () => {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+
+    const pages = document.querySelectorAll(".pdf-page");
+
+    console.log(pages);
+
+    pages.forEach(page => {
+      page.style.height = pages[0].style.height;
+    });
+
+    const slides = document.querySelectorAll(".slides");
+    slides.forEach(slide => {
+      slide.style.backgroundColor = "white";
+    });
+
+    window.print();
+  });
+}
+
 chrome.webNavigation.onCompleted.addListener(async function (details) {
   if (details.tabId === currentTab.id) {
     await getCurrentTab();
     checkBtnsStatus();
+
+    if (currentTab.url.match("print-pdf")) {
+      injectDomStyles();
+    }
   }
 });
 
@@ -62,20 +91,7 @@ reloadBtn.addEventListener("click", async () => {
 });
 
 printBtn.addEventListener("click", async () => {
-  executeOnCurrentTab(() => {
-    const pages = document.querySelectorAll(".pdf-page");
-
-    pages.forEach(page => {
-      page.style.height = pages[0].style.height;
-    });
-
-    const slides = document.querySelectorAll(".slides");
-    slides.forEach(slide => {
-      slide.style.backgroundColor = "white";
-    });
-
-    window.print();
-  });
+  injectDomStyles();
 });
 
 returnBtn.addEventListener("click", async () => {
